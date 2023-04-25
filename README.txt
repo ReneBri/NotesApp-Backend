@@ -1,1 +1,3 @@
 This is the server-side application for my NotesApp idea. More to come soon...
+
+Now good enough to start building up the front-end, then come back to this when sign-up and login fucntions are nearing completion.

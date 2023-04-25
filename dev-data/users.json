@@ -1,0 +1,20 @@
+[
+    {
+        "firstName": "Rene",
+        "userId": "69",
+        "lastOnline": "Date",
+        "email": "rene@rene.com"
+    },
+    {
+        "firstName": "Effy",
+        "userId": "96",
+        "lastOnline": "Date",
+        "email": "schmeffo@schmeffo.com"
+    },
+    {
+        "firstName": "ben",
+        "userId": "404",
+        "lastOnline": "Date",
+        "email": "ben@ben.com"
+    }
+]
