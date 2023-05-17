@@ -1,28 +1,33 @@
-
-const fs = require('fs');
-
-// fetch data from local dev-data folder
-const data = fs.readFileSync('./dev-data/topics.json', 'utf-8', (err, data) => {
-    if(err){
-        console.log(err.message);
-    }
-    return data;
-});
-
-const jsonData = JSON.parse(data);
+const Topic = require("../models/topicsModel");
 
 // all topic handlers for '/'
-exports.getAllTopics =  (req, res) => {
-    res.status(200).json({
-        status: 'success',
-        data: jsonData
-    });
+exports.getAllTopics = async (req, res) => {
+	try {
+		const topics = await Topic.find({});
+		res.status(200).json({
+			status: "success",
+			data: topics,
+		});
+	} catch (err) {
+		res.status(404).json({
+			status: "fail",
+			data: "resources could not be found",
+		});
+	}
 };
 
-exports.createTopic = (req, res) => {
-    console.log(req.body)
-    res.status(200).json({
-        status: 'success',
-        data: req.body
-    });
+exports.createTopic = async (req, res) => {
+	console.log(req.body);
+	try {
+		const newTopic = await Topic.create(req.body);
+		res.status(200).json({
+			status: "success",
+			data: newTopic,
+		});
+	} catch (err) {
+		res.status(404).json({
+			status: "fail",
+			message: err.message,
+		});
+	}
 };

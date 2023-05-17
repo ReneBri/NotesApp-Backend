@@ -1,39 +1,53 @@
+const User = require("../models/userModel");
 
-const fs = require('fs');
+exports.getAllUsers = async (req, res) => {
+	try {
+		const users = await User.find({});
+		res.status(200).json({
+			status: "success",
+			users,
+		});
+	} catch (err) {
+		res.status(404).json({
+			status: "fail",
+			message: err.message,
+		});
+	}
+};
 
-const data = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/users.json`, 'utf-8'));
-
-console.log(data);
-
-exports.getAllUsers = (req, res) => {
-    res.status(200).json({
-        message: 'success',
-        users: data
-    });
-}
-
-exports.createUser = (req, res) => {
-    console.log(req.body);
-    res.send(req.body);
-}
+exports.createUser = async (req, res) => {
+	try {
+		const newUser = await User.create(req.body);
+		res.status(200).json({
+			status: "success",
+			user: newUser,
+		});
+	} catch (err) {
+		res.status(404).json({
+			status: "fail",
+			message: err.message,
+		});
+	}
+};
 
 // with ID parameter
 
-exports.getSingleUser = (req, res) => {
-    const id = req.params.id;
-
-    const user = data.filter(usr => usr.userId === id);
-
-    if (user.length === 0) {
-        res.status(404).json({
-            status: "fail",
-            message: "user could not be found."
-        });
-    }
-
-    res.status(200).json({
-        status: "success",
-        user
-    });
-
-}
+exports.getSingleUser = async (req, res) => {
+	const id = req.params.id;
+	try {
+		const foundUser = await User.findOne({
+			userId: id,
+		});
+		if (foundUser) {
+			res.status(200).json({
+				status: "success",
+				user: foundUser,
+			});
+		} else throw new Error("no User found");
+	} catch (err) {
+		res.status(404).json({
+			status: "fail",
+			message: err.message,
+		});
+	}
+};
